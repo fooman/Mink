@@ -83,6 +83,14 @@ class MinkContext extends BaseMinkContext
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function setParameter($name, $value)
+    {
+        $this->parameters[$name] = $value;
+    }
+
+    /**
      * Initializes Mink instance and sessions.
      *
      * @param   Behat\Behat\Event\SuiteEvent $event
