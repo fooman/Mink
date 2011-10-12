@@ -368,9 +368,21 @@ JS;
     public function selectOption($xpath, $value)
     {
         $type = $this->getAttribute($xpath, 'type');
+        $multiple = $this->getAttribute($xpath, 'multiple');
 
         if ('radio' === $type) {
             $this->selectRadioOption($xpath, $value);
+        } elseif('multiple' === $multiple && is_array($value)) {
+            $select = $this->client->findByXPath($this->prepareXPath($xpath));
+            $resetDone = false;
+            foreach ($value as $option) {
+                if(!$resetDone) {
+                    $select->choose($option);
+                    $resetDone = true;
+                } else {
+                    $select->choose($option,true);
+                }
+            }
         } else {
             $this->client->findByXPath($this->prepareXPath($xpath))->choose($value);
         }
